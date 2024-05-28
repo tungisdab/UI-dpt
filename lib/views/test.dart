@@ -24,70 +24,57 @@ class _TestState extends State<Test> {
   @override
   void initState() {
     super.initState();
-    try {
-      // _controller1 = VideoPlayerController.asset(
-      //   'web/assets/animal/v1_animal.mp4', // Đường dẫn tới video trong thư mục assets
-      // )..initialize().then((_) {
-      //     // Đảm bảo cập nhật giao diện sau khi khởi tạo video
-      //     setState(() {
-      //       videoLength = _controller1.value.duration;
-      //     });
-      //   });
-      // _controller1.addListener(() {
-      //   setState(() {
-      //     videoPosition = _controller1.value.position;
-      //     // Cập nhật trạng thái khi video thay đổi
-      //   });
-      // });
+    _controller1 = VideoPlayerController.asset(
+      'web/assets/animal/v1_animal.mp4', // Đường dẫn tới video trong thư mục assets
+    )..initialize().then((_) {
+        // Đảm bảo cập nhật giao diện sau khi khởi tạo video
+        setState(() {
+          videoLength = _controller1.value.duration;
+        });
+      });
+    _controller1.addListener(() {
+      setState(() {
+        videoPosition = _controller1.value.position;
+      });
+    });
 
-      // _controller2 = VideoPlayerController.asset(
-      //   'web/assets/animal/v2_animal.mp4', // Đường dẫn tới video trong thư mục assets
-      // )..initialize().then((_) {
-      //     // Đảm bảo cập nhật giao diện sau khi khởi tạo video
-      //     setState(() {
-      //       log('kkk');
-      //     });
-      //   });
-      // _controller2.addListener(() {
-      //   setState(() {
-      //     // Cập nhật trạng thái khi video thay đổi
-      //   });
-      // });
+    _controller2 = VideoPlayerController.asset(
+      'web/assets/animal/v2_animal.mp4', // Đường dẫn tới video trong thư mục assets
+    )..initialize().then((_) {
+        // Đảm bảo cập nhật giao diện sau khi khởi tạo video
+        setState(() {});
+      });
+    _controller2.addListener(() {
+      setState(() {});
+    });
 
-      // _controller3 = VideoPlayerController.asset(
-      //   'web/assets/animal/v3_animal.mp4', // Đường dẫn tới video trong thư mục assets
-      // )..initialize().then((_) {
-      //     // Đảm bảo cập nhật giao diện sau khi khởi tạo video
-      //     setState(() {
-      //       log('kkk');
-      //     });
-      //   });
-      // _controller3.addListener(() {
-      //   setState(() {
-      //     // Cập nhật trạng thái khi video thay đổi
-      //   });
-      // });
-      _controller1 = VideoPlayerController.asset(
-        'web/assets/animal/v1_animal.mp4', 
-      );
-      _controller2 = VideoPlayerController.asset(
-        'web/assets/animal/v2_animal.mp4',
-      );
-      _controller3 = VideoPlayerController.asset(
-        'web/assets/animal/v3_animal.mp4', 
-      );
-    } catch (e) {
-      print(e.toString());
-    }
+    _controller3 = VideoPlayerController.asset(
+      'web/assets/animal/v5_animal.mp4', // Đường dẫn tới video trong thư mục assets
+    )..initialize().then((_) {
+        // Đảm bảo cập nhật giao diện sau khi khởi tạo video
+        setState(() {});
+      });
+    _controller3.addListener(() {
+      setState(() {});
+    });
+    // _controller1 = VideoPlayerController.asset(
+    //   'web/assets/animal/v1_animal.mp4',
+    // );
+    // _controller2 = VideoPlayerController.asset(
+    //   'web/assets/animal/v2_animal.mp4',
+    // );
+    // _controller3 = VideoPlayerController.asset(
+    //   'web/assets/animal/v3_animal.mp4',
+    // );
   }
 
-  // @override
-  // void dispose() {
-  //   super.dispose();
-  //   _controller1.dispose();
-  //   _controller2.dispose();
-  //   _controller3.dispose();
-  // }
+  @override
+  void dispose() {
+    super.dispose();
+    _controller1.dispose();
+    _controller2.dispose();
+    _controller3.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -229,7 +216,7 @@ class _TestState extends State<Test> {
       );
 
   Widget videoField2() => Center(
-        child: _controller1.value.isInitialized
+        child: _controller2.value.isInitialized
             ? DottedBorder(
                 color: WebColor.textColor,
                 dashPattern: [8, 4],

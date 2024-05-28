@@ -29,7 +29,7 @@ class _ImageInputState extends State<ImageInput> {
           children: [
             Text(
               'Image Input:',
-              style: TextStyle(color: WebColor.textColor, fontSize: 30),
+              style: TextStyle(color: WebColor.text, fontSize: 30),
             ),
             imageField(),
           ],

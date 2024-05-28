@@ -1,6 +1,7 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
+import 'package:web/common/time_convert.dart';
 import 'package:web/styles/web_colors.dart';
 
 class VideosOutput extends StatefulWidget {
@@ -21,13 +22,15 @@ class _VideosOutputState extends State<VideosOutput> {
   void initState() {
     super.initState();
     controller = widget.controller;
-    controller.initialize().then((_) {
-      setState(() {
-      }); 
-    });
+    // controller.initialize().then((_) {
+    //   setState(() {
+    //     videoLength = controller.value.duration;
+    //     // videoPosition = controller.value.position;
+    //   }); 
+    // });
     controller.addListener(() {
       setState(() {
-        // videoLength = controller.value.duration;
+        videoLength = controller.value.duration;
         videoPosition = controller.value.position;
       });
     });
@@ -43,9 +46,6 @@ class _VideosOutputState extends State<VideosOutput> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const SizedBox(
-          height: 20,
-        ),
         videoField(),
       ],
     );
@@ -69,7 +69,7 @@ class _VideosOutputState extends State<VideosOutput> {
                       ),
                       VideoProgressIndicator(
                         controller,
-                        allowScrubbing: true,
+                        allowScrubbing: false,
                         padding: EdgeInsets.all(10),
                       ),
                       Row(
@@ -94,10 +94,10 @@ class _VideosOutputState extends State<VideosOutput> {
                           SizedBox(
                             width: 10,
                           ),
-                          // Text(
-                          //   '${videoPosition.inSeconds}:${videoLength.inSeconds}',
-                          //   style: TextStyle(color: WebColor.textColor),
-                          // )
+                          Text(
+                            '${TimeConvert.convertTime(videoPosition.inSeconds.toString())} / ${TimeConvert.convertTime(videoLength.inSeconds.toString())}',
+                            style: TextStyle(color: WebColor.textColor),
+                          )
                         ],
                       ),
                     ],
