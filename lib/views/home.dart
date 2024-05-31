@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import 'package:web/components/image_input.dart';
@@ -5,6 +8,7 @@ import 'package:web/components/videos_output.dart';
 import 'package:web/styles/web_colors.dart';
 import 'package:web/widgets/header.dart';
 import 'package:web/widgets/vertical_line.dart';
+import 'package:http/http.dart' as http;
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -14,6 +18,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  late File? _image;
   late VideoPlayerController _controller1;
   late VideoPlayerController _controller2;
   late VideoPlayerController _controller3;
@@ -27,8 +32,7 @@ class _HomeState extends State<Home> {
     _controller1 = VideoPlayerController.asset(
       'web/assets/animal/v1_animal.mp4', // Đường dẫn tới video trong thư mục assets
     )..initialize().then((_) {
-        setState(() {
-        });
+        setState(() {});
       });
     _controller1.addListener(() {
       setState(() {});
@@ -37,8 +41,7 @@ class _HomeState extends State<Home> {
     _controller2 = VideoPlayerController.asset(
       'web/assets/animal/v2_animal.mp4',
     )..initialize().then((_) {
-        setState(() {
-        });
+        setState(() {});
       });
     _controller2.addListener(() {
       setState(() {});
@@ -47,13 +50,12 @@ class _HomeState extends State<Home> {
     _controller3 = VideoPlayerController.asset(
       'web/assets/animal/v3_animal.mp4',
     )..initialize().then((_) {
-        setState(() {
-        });
+        setState(() {});
       });
     _controller3.addListener(() {
       setState(() {});
     });
-    
+
     //  _controller1 = VideoPlayerController.asset(
     //   'web/assets/animal/v1_animal.mp4',
     // );
@@ -67,7 +69,6 @@ class _HomeState extends State<Home> {
     titleVideo1 = 'v1_animal.mp4';
     titleVideo2 = 'v2_animal.mp4';
     titleVideo3 = 'v3_animal.mp4';
-
   }
 
   @override

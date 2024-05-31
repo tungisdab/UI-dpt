@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
@@ -6,6 +7,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:web/styles/web_colors.dart';
+import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
 
 class ImageInput extends StatefulWidget {
   const ImageInput({super.key});
@@ -22,7 +25,13 @@ class _ImageInputState extends State<ImageInput> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        buttonUploadImage(),
+        Row(
+          children: [
+            buttonUploadImage(),
+            const SizedBox(width: 20,),
+            buttonRecognition(),
+          ],
+        ),
         const SizedBox(height: 20),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -71,6 +80,44 @@ class _ImageInputState extends State<ImageInput> {
         icon: const Icon(
           Icons.upload,
           color: Colors.red,
+        ),
+      );
+
+  Widget buttonRecognition() => ElevatedButton.icon(
+        style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all(WebColor.buttonColor),
+          padding: MaterialStateProperty.all(
+              const EdgeInsets.symmetric(horizontal: 20, vertical: 20)),
+          fixedSize: MaterialStateProperty.all(
+              Size(170, 50)), // Đặt kích thước cố định
+          elevation: MaterialStateProperty.all(5), // Độ cao của nút
+          shadowColor: MaterialStateProperty.all(Colors.grey), // Màu bóng đổ
+          shape: MaterialStateProperty.all(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30), // Bo tròn góc nút
+            ),
+          ),
+          overlayColor: MaterialStateProperty.resolveWith<Color?>(
+            (Set<MaterialState> states) {
+              if (states.contains(MaterialState.pressed)) {
+                return Colors.red.withOpacity(0.2); // Màu khi nhấn
+              }
+              return null; // Sử dụng màu mặc định cho các trạng thái khác
+            },
+          ),
+        ),
+        onPressed: () async {
+          await uploadImage();
+        },
+        label: Text(
+          'Recognition',
+          style: TextStyle(color: WebColor.textColor),
+        ),
+        icon: Image.asset(
+          'assets/icons/video.png',
+          fit: BoxFit.cover,
+          height: 25,
+          width: 25,
         ),
       );
 
@@ -142,6 +189,42 @@ class _ImageInputState extends State<ImageInput> {
       }
     } else {
       log('Something went wrong');
+    }
+  }
+
+  Future<void> uploadImage() async {
+    if (_pickedImage == null && webImage == null) return;
+
+    final request = http.MultipartRequest(
+      'POST',
+      Uri.parse('http://localhost:5000/process-image'),
+    );
+
+    if (kIsWeb) {
+      request.files.add(http.MultipartFile.fromBytes(
+        'image',
+        webImage!,
+        filename: 'upload.png', // Tên file khi upload
+        contentType: MediaType('image', 'png'),
+      ));
+    } else {
+      request.files.add(
+        await http.MultipartFile.fromPath(
+          'image',
+          _pickedImage!.path,
+        ),
+      );
+    }
+
+    final response = await request.send();
+
+    if (response.statusCode == 200) {
+      final responseData = await response.stream.bytesToString();
+      final result = jsonDecode(responseData);
+
+      print('Result khanh dep trai hehehe: ${result['result']}');
+    } else {
+      print('Error: ${response.reasonPhrase}');
     }
   }
 }
