@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
@@ -6,6 +5,8 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:web/common/response_data_convert.dart';
+import 'package:web/common/video_paths.dart';
 import 'package:web/styles/web_colors.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
@@ -114,7 +115,7 @@ class _ImageInputState extends State<ImageInput> {
           style: TextStyle(color: WebColor.textColor),
         ),
         icon: Image.asset(
-          'assets/icons/video.png',
+          'web/assets/icons/video.png',
           fit: BoxFit.cover,
           height: 25,
           width: 25,
@@ -140,7 +141,7 @@ class _ImageInputState extends State<ImageInput> {
                         children: [
                           Image.asset(
                             scale: 3,
-                            'assets/icons/photo.png',
+                            'web/assets/icons/photo.png',
                             // fit: BoxFit.contain,
                           ),
                           Text(
@@ -220,9 +221,11 @@ class _ImageInputState extends State<ImageInput> {
 
     if (response.statusCode == 200) {
       final responseData = await response.stream.bytesToString();
-      final result = jsonDecode(responseData);
-
-      print('Result khanh dep trai hehehe: ${result['result']}');
+      // final result = jsonDecode(responseData);
+      String data = responseData.toString();
+      List<String> result = ResponseDataConvert.convertResult(data);
+      // print(result);
+      VideoPaths.updatePaths(result);
     } else {
       print('Error: ${response.reasonPhrase}');
     }

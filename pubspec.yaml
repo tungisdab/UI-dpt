@@ -70,11 +70,14 @@ flutter:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
   assets:
-    - assets/icons/
-    - assets/images/
+    - assets/
     - web/assets/
-    - web/assets/animal/
-    - web/assets/images/
+    - web/assets/icons/
+    - web/assets/dataset/animals/animals/
+    - web/assets/dataset/flowers/flowers/
+    - web/assets/dataset/foods/foods/
+    - web/assets/dataset/humans/humans/
+    - web/assets/dataset/natures/natures/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

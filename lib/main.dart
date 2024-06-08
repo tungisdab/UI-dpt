@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:web/views/home.dart';
 
 void main() {
+  // debugPaintSizeEnabled = true;
   runApp(const MyApp());
 }
 

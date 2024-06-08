@@ -9,7 +9,7 @@ class VerticalLine extends StatelessWidget {
   Widget build(BuildContext context) {
     return DottedLine(
       direction: Axis.vertical,
-      lineLength: 1500,
+      lineLength: 1800,
       dashColor: WebColor.textColor,
       lineThickness: 2,
       dashLength: 20,

@@ -22,12 +22,12 @@ class _VideosOutputState extends State<VideosOutput> {
   void initState() {
     super.initState();
     controller = widget.controller;
-    // controller.initialize().then((_) {
-    //   setState(() {
-    //     videoLength = controller.value.duration;
-    //     // videoPosition = controller.value.position;
-    //   }); 
-    // });
+    controller.initialize().then((_) {
+      setState(() {
+        videoLength = controller.value.duration;
+        // videoPosition = controller.value.position;
+      }); 
+    });
     controller.addListener(() {
       setState(() {
         videoLength = controller.value.duration;
